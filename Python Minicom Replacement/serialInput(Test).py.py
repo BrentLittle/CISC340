@@ -1,3 +1,7 @@
+# This Script is currently a WIP and does not function as
+# planned due to odd formatting in the serial input from
+# the Basys3 to the RPi
+
 #!/usr/bin/env python
 import serial
 
@@ -31,10 +35,3 @@ while True:
         else: # Extra Line read IN
                 count = 0
                 print("")
-
-#import serial
-
-#ser = serial.Serial("/dev/ttyUSB1", 9600, timeout=2)
-
-#while 1:
-# print ser.readline()
