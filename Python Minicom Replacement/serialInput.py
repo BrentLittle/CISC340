@@ -6,8 +6,11 @@ ser = serial.Serial("/dev/ttyUSB1", 9600, timeout=2)
 gpioPinsFirstNumber = [LED(x) for x in [5,6,13,19]]
 secondPins = [LED(x) for x in [4,17,27,22]]
 while 1:
-    armed = ser.readline()
-    temp = int(ser.readline())/10 -10
+    isCel = ser.readline()
+    isAlarm = ser.readline()
+    temp = int(ser.readline())*0.2 + 8
+    if int(isCel) == 0:
+        temp = (temp-32)//1.8
     firstDigit = temp //10
     secondDigit = temp % 10
     for pin in gpioPinsFirstNumber:
@@ -86,4 +89,3 @@ while 1:
         secondPins[2].off()
         secondPins[3].off()
     time.sleep(0.7)
-    print firstDigit, secondDigit, temp
