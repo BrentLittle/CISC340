@@ -9,10 +9,7 @@ from flask import Flask, render_template
 app = Flask(appmain)
 ser = serial.Serial("/dev/ttyUSB1", 9600, timeout=2)
 
-def print_web(outstring):
-	return str(outstring)
-
-@app.route("/appmain")
+@app.route("/")
 def appmain():
 	return render_template(index.html)
 
