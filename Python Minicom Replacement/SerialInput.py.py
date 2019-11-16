@@ -6,13 +6,17 @@
 import serial
 from flask import Flask, render_template
 
-app = Flask(__name__)
+app = Flask(appmain)
 ser = serial.Serial("/dev/ttyUSB1", 9600, timeout=2)
 
 def print_web(outstring):
 	return str(outstring)
 
-def main():
+@app.route("/appmain")
+def appmain():
+	return render_template(index.html)
+
+def serial_start():
 	run_flag = True
 	alarm_flag = False
 	while (run_flag):
@@ -22,4 +26,4 @@ def main():
  
  if __name__ = "__main__":
 	app.run(deblug=true, host="0.0.0.0", port=6969)
-	main()
+	#serial_start()
