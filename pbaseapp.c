@@ -87,58 +87,55 @@ int main()
 	}
 	XSysMon_SetSequencerMode(xadc_inst_ptr,XSM_SEQ_MODE_CONTINPASS);
 
-	while(1){
-
-		/*********PushButton, Switch, and Led Section*/
-		btn = XGpio_DiscreteRead(&gpio, 1);
-		sw  = XGpio_DiscreteRead(&gpio1,1);
-		jbin  = XGpio_DiscreteRead(&gpio2,1);
-		jcout = 1;//set to 0 for silence, 3 for high frequency buzzer
-		bcdout = 0xabcd; // test display = 1234
-		digin = jbin & 0xF; //jb[3..0]
-		rpiin = (jbin & 0xF0)>>4; //jb[7..4];
+	while(1)
+	{
+		/*********PushButton, Switch, and Led Section*************/
+		sw  = XGpio_DiscreteRead(&gpio1,1); // read in values from switches
+		jbin  = XGpio_DiscreteRead(&gpio2,1); // read in value from jb GPIO pmod
 		
-		if (btn != 0) // turn all LEDs on when any button is pressed
-			led = sw;
-		else
-			led = 0x00000000;
-
-		XGpio_DiscreteWrite(&gpio, 2, led);
-		XGpio_DiscreteWrite(&gpio3, 1, jcout);
-		//XGpio_DiscreteWrite(&gpio4, 1, bcdout);
-		XGpio_DiscreteWrite(&gpio4, 1, jbin);
-		//xil_printf("\rbutton state: %08x\n",btn);
-		//xil_printf("\r jbin: %08x, digin: %08x, rpiin: %08x\n",jbin,digin,rpiin);
+		jbin = jbin | 0xF00; // add a dash to the left of the number
 		
-		if (sw != 0x00000000)
-			xil_printf("\r%d\n",1);
+		jbin = (jbin<<4) | 0x000F; // shift the bit to the left and add a hyphen at the end
+		
+		XGpio_DiscreteWrite(&gpio4, 1, jbin); // write what is coming in from jbin to the 7seg display
+		
+		int maskSW0 =  0b0000000000000001; // mask to isolate the bit sor switch 0
+		int maskSW1 =  0b0000000000000010; // mask to isolate the bit for switch 1 
+		
+		if ((maskSW0 & sw) == 1) 
+			xil_printf("\r%d\n",1); // if switch is on set our armed output to 1 over the serial output
 		else 
-			xil_printf("\r%d\n",0);
+			xil_printf("\r%d\n",0); // if switch is not on set our armed output to 0 over the serial output
+			
+		if ((maskSW1 & sw) == 2) 
+			xil_printf("\r%d\n",1); // if switch is on set our Ferenheit output to 1 over the serial output
+		else 
+			xil_printf("\r%d\n",0); // if switch is off set our Ferenheit output to 0 over the serial output
 		
-		/******************end of section*************/
+		/*************end of section*************/
 
-		 /*****************************XADC section**************/
+		/*************XADC section*************/
 		XSysMon_GetStatus(xadc_inst_ptr); //Clear the old status
+		
+		// OUTPUT ONLY VAUX06 VALUE
 		for (Index = 3;Index<RX_BUFFER_SIZE;Index++)
-		{
+		{ 											
 			while((XSysMon_GetStatus(xadc_inst_ptr)& XSM_SR_EOS_MASK) != XSM_SR_EOS_MASK)
 			{
 				XADC_Buf[Index] = XSysMon_GetAdcData(xadc_inst_ptr,sample[Index]);
 			}
 		}
-
-		for(Index = 3;Index<RX_BUFFER_SIZE;Index++){
-			
-		    xil_printf("%d\n",(int)(XADC_Buf[Index]>>4));
-		    //bcdout = (int)(XADC_Buf[Index]>>4);
-		    //XGpio_DiscreteWrite(&gpio4, 1, jbin);
+		
+		// OUTPUT ONLY VAUX06 VALUE
+		for(Index = 3;Index<RX_BUFFER_SIZE;Index++)
+		{
+		    xil_printf("%d\n",(int)(XADC_Buf[Index]>>4)); 
 		}
+		
 		//xil_printf("   \n");
 		sleep(1);
-
-		/****************end of section*************/
+		/*************end of section*************/
 	} //end of while(1)
-
 	return 0;
 }
 
