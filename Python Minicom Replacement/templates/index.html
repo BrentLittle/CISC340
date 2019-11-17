@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<title>CISC340 Team9</title>
+	</head>
+	<header>
+		<h1>CISC 340 Team 9 project</h1>
+		<img src = "https://www.raspberrypi.org/app/uploads/2017/06/Powered-by-Raspberry-Pi-Logo_Outline-Colour-Screen-500x153.png">
+		<h2>The Glorified Thermometer</h2>
+		<p><b>Group Members: </b> <br>
+		Brent Littlefield<br>Bruce Nishimura<br>Tong Liu<br>Rebecca Hoogkamp</p>
+	</header>
+
+	<body  onload="startTime()"; style="background-color:grey">
+
+		<div id="txt"></div>
+		
+		<div><p>Current Temperature: {{ var1 }} {{ var2 }}</p></div>
+		
+		<div><p>System State: {{ var3}}</p></div>
+
+	</body>
+
+	<script>
+	function startTime() {
+	  var today = new Date();
+	  var h = today.getHours();
+	  var m = today.getMinutes();
+	  var s = today.getSeconds();
+	  m = checkTime(m);
+	  s = checkTime(s);
+	  document.getElementById('txt').innerHTML = h + ":" + m + ":" + s;
+	  var t = setTimeout(startTime, 500);
+	}
+	function checkTime(i) {
+	  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+	  return i;
+	}
+	</script>
+
+</html>
