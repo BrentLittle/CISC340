@@ -15,19 +15,24 @@ isAlarm = 0
 
 @app.route("/")
 def appmain():
-	global temp
-	global isCel
-	global isAlarm
-	if isCel == 0:
-		celFlag = "C"
+    global temp
+    global isCel
+    global isAlarm
+    
+    alarmFlag = 'ALARM: OFF'
+	if int(isAlarm) != 0:
+		alarmFlag = 'ALARM: ON'
+	if int(isCel) == 0:
+        if int(isAlarm) != 0 and temp > 25:
+            alarmFlag = 'ALARM: SOUNDING'
+            return render_template('alarm.html')
+        return render_template('index.html', var1 = temp, var2 = 'C', var3 = alarmFlag)
 	else:
-		celFlag = "F"
-	if isAlarm == 0:
-		alarmFlag = "OFF"
-	else:
-		alarmFlag = "ON"
-
-	return render_template("index.html", var1 = temp, var2 = celFlag, var3 = alarmFlag)
+        if int(isAlarm) != 0 and temp > 77:
+            alarmFlag = 'ALARM: SOUNDING'
+            return render_template('alarm.html')
+        return render_template('index.html', var1 = temp, var2 = 'F', var3 = alarmFlag)
+	
 
 def serial_start(ser):
 	gpioPinsFirstNumber = [LED(x) for x in [5,6,13,19]]
@@ -41,10 +46,10 @@ def serial_start(ser):
 
 		isCel = ser.readline()
 		isAlarm = ser.readline()
-		temp = int(ser.readline()) * 0.2 + 8
+		temp = int(int(ser.readline()) * 0.2 + 8)
 		
 		if int(isCel) == 0:
-			temp = (temp - 32) // 1.8
+			temp = int((temp - 32) // 1.8)
 			
 		firstDigit = temp // 10
 		secondDigit = temp % 10
@@ -131,4 +136,4 @@ if __name__ == "__main__" :
 	ser = serial.Serial("/dev/ttyUSB1", 9600, timeout=2)
 	thread = threading.Thread(target = serial_start, args = (ser, ) )
 	thread.start()
-	app.run(debug=True)
+	app.run(debug=True, host='0.0.0.0')
