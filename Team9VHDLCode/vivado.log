@@ -1,0 +1,33 @@
+#-----------------------------------------------------------
+# Vivado v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:03:12 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Sun Nov 17 21:50:55 2019
+# Process ID: 13636
+# Current directory: C:/Users/BRENT/Desktop/CISC340/Team9VHDLCode
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent10704 C:\Users\BRENT\Desktop\CISC340\Team9VHDLCode\pbasejb.xpr
+# Log file: C:/Users/BRENT/Desktop/CISC340/Team9VHDLCode/vivado.log
+# Journal file: C:/Users/BRENT/Desktop/CISC340/Team9VHDLCode\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/BRENT/Desktop/CISC340/Team9VHDLCode/pbasejb.xpr
+INFO: [Project 1-313] Project file moved from 'C:/Users/16bml1/Desktop/PBaseFinal.xpr' since last save.
+Scanning sources...
+Finished scanning sources
+CRITICAL WARNING: [Board 49-67] The board_part definition was not found for digilentinc.com:basys3:part0:1.1. This can happen sometimes when you use custom board part. You can resolve this issue by setting 'board.repoPaths' parameter, pointing to the location of custom board files. Valid board_part values can be retrieved with the 'get_board_parts' Tcl command.
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2018.2/data/ip'.
+WARNING: [BD 41-1661] One or more IPs have been locked in the design 'design_1.bd'. Please run report_ip_status for more details and recommendations on how to fix this issue.
+List of locked IPs:
+design_1_axi_gpio_0_1
+design_1_clk_wiz_0_0
+design_1_rst_clk_wiz_0_100M_0
+design_1_axi_uartlite_0_0
+design_1_axi_gpio_2_0
+design_1_axi_gpio_1_1
+design_1_axi_gpio_3_0
+design_1_axi_gpio_4_0
+
+open_project: Time (s): cpu = 00:00:22 ; elapsed = 00:00:21 . Memory (MB): peak = 838.484 ; gain = 117.754
+update_compile_order -fileset sources_1

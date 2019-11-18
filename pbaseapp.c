@@ -103,14 +103,14 @@ int main()
 		int maskSW1 =  0b0000000000000010; // mask to isolate the bit for switch 1 
 		
 		if ((maskSW0 & sw) == 1) 
-			xil_printf("\r%d\n",1); // if switch is on set our armed output to 1 over the serial output
+			xil_printf("\r%d\n",1); // if switch0 is on set our Ferenheit output to 1 over the serial output
 		else 
-			xil_printf("\r%d\n",0); // if switch is not on set our armed output to 0 over the serial output
+			xil_printf("\r%d\n",0); // if switch0 is not on set our Ferenheit output to 0 over the serial output
 			
 		if ((maskSW1 & sw) == 2) 
-			xil_printf("\r%d\n",1); // if switch is on set our Ferenheit output to 1 over the serial output
+			xil_printf("\r%d\n",1); // if switch1 is on set our armed output to 1 over the serial output
 		else 
-			xil_printf("\r%d\n",0); // if switch is off set our Ferenheit output to 0 over the serial output
+			xil_printf("\r%d\n",0); // if switch1 is off set our armed output to 0 over the serial output
 		
 		/*************end of section*************/
 
